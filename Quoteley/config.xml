@@ -8,4 +8,12 @@
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <!-- Splashscreen doesn't work -->
+    <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value = "3000"/>
+    <splash src="C:\Users\gabri\Documents\Workspace\Quoteley\Quoteley\res\drawable\splashscreen.png" density="port-ldpi"/>
+    <splash src="C:\Users\gabri\Documents\Workspace\Quoteley\Quoteley\res\drawable\splashscreen.png" density="port-mdpi"/>
+    <splash src="C:\Users\gabri\Documents\Workspace\Quoteley\Quoteley\res\drawable\splashscreen.png" density="port-hdpi"/>
+    <splash src="C:\Users\gabri\Documents\Workspace\Quoteley\Quoteley\res\drawable\splashscreen.png" density="port-xhdpi"/>
 </widget>
