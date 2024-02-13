@@ -8,8 +8,4 @@
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
-    <platform name="android">
-    <splash src="./res/splash/LogoWithoutText.png" />
-    <splash src="res/splash/Logopng.png" />
-    </platform>
 </widget>
