@@ -24,12 +24,20 @@ h2 {
   color: darkgray;
 }
 
+.menuBar {
+  display: flex;
+  justify-content: space-between;
+  /* background-color: RGB(30, 34, 39); */
+  padding: 0.5em;
+  border-bottom: solid gray;
+}
+
 .titleDiv {
-  margin-top: 3em;
-  width: 97.5vw;
-  margin-left: 1vw;
-  margin-right: 1.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  vertical-align: middle;
 }
 
 .contentDiv {
@@ -39,6 +47,23 @@ h2 {
   border-top: solid gray;
 }
 
-#mainTitle {
-  margin-right: auto;
+#user {
+  color: darkgray;
+  border: solid white;
+  border-radius: 5px;
+  padding: 0.5em;
+}
+
+#home {
+  color: darkgray;
+  border: solid white;
+  border-radius: 5px;
+  padding: 0.5em;
+}
+
+#search {
+  color: darkgray;
+  border: solid white;
+  border-radius: 5px;
+  padding: 0.5em;
 }
