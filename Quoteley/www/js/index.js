@@ -2,8 +2,25 @@
 function startUp() {
   //Check if logged in
   if (true) {
-    window.location.href = "./pages/login.html";
   } else {
   }
 }
 startUp();
+
+document.getElementById("user").addEventListener("click", function () {
+  //if logged in -> show div with user info
+  //if not logged in -> show default div
+  if (false) {
+    if (document.getElementById("userInfoPopUp").style.display == "none") {
+      document.getElementById("userInfoPopUp").style.display = "flex";
+    } else {
+      document.getElementById("userInfoPopUp").style.display = "none";
+    }
+  } else {
+    if (document.getElementById("defaultUserPopUp").style.display == "none") {
+      document.getElementById("defaultUserPopUp").style.display = "flex";
+    } else {
+      document.getElementById("defaultUserPopUp").style.display = "none";
+    }
+  }
+});

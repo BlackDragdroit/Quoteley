@@ -113,3 +113,22 @@ h2 {
   width: 16em;
   background-color: var(--background-color);
 }
+
+.popUp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  background-color: var(--background-color);
+  border: solid gray;
+  border-radius: 5px;
+  padding: 1em;
+}
+
+#defaultUserPopUp {
+  top: 3em;
+  right: 3em;
+  display: none;
+  border-radius: 5px 0px 5px 5px !important;
+}
