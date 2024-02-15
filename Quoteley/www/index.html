@@ -8,36 +8,24 @@
     <title>Quoteley</title>
   </head>
   <body>
-    <div class="loginBox">
-      <div id="loginTitle">
-        <img src="./assets/images/LogoGray2.png" style="width: 16vh" />
-      </div>
-      <input
-        type="text"
-        name="username"
-        id="username"
-        class="input"
-        placeholder="Username"
+    <div class="menuBar">
+      <i id="search" data-feather="search"></i>
+      <img
+        src="./assets/images/LogoGray2.png"
+        style="width: 3.5em; height: 2.5em"
       />
-      <input
-        type="password"
-        name="ligma"
-        id="password"
-        class="input"
-        placeholder="Password"
-      />
-      <br />
-      <input type="submit" value="Login" class="button" />
-      <input
-        type="submit"
-        value="Register"
-        class="button"
-        style="width: 10em"
-        href="pages/register/register.html"
-      />
+      <i id="user" data-feather="user"></i>
     </div>
+    <div class="titleDiv">
+      <h1 id="mainTitle">Quoteley</h1>
+    </div>
+    <div class="contentDiv">
+      <h2>Feed</h2>
+    </div>
+
     <script>
       feather.replace();
     </script>
+    <script src="../../js/index.js"></script>
   </body>
 </html>
