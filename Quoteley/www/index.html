@@ -8,6 +8,18 @@
     <title>Quoteley</title>
   </head>
   <body>
+    <div class="titleDiv">
+      <h1 id="mainTitle">Quoteley</h1>
+    </div>
+
+    <div class="contentDiv">
+      <h2>Feed</h2>
+      <div id="exampleContent" class="post">
+        <div class="mainPost">Example Post</div>
+        <div class="subPost">(👉ﾟヮﾟ)👉 This is an example Post (⌐■_■)</div>
+      </div>
+    </div>
+
     <div class="menuBar">
       <i id="search" data-feather="search"></i>
       <img
@@ -17,16 +29,14 @@
       <div>
         <i id="user" data-feather="user"></i>
         <div class="popUp" id="defaultUserPopUp">
-          <input type="button" class="button" value="Sign In" />
-          <input type="button" class="button" value="Sign Up" />
+          <a href="./pages/login.html"
+            ><input type="button" class="button" value="Sign In"
+          /></a>
+          <a href="./pages/register.html">
+            <input type="button" class="button" value="Sign Up" />
+          </a>
         </div>
       </div>
-    </div>
-    <div class="titleDiv">
-      <h1 id="mainTitle">Quoteley</h1>
-    </div>
-    <div class="contentDiv">
-      <h2>Feed</h2>
     </div>
 
     <script>

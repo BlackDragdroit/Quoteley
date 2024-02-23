@@ -7,6 +7,11 @@ function startUp() {
 }
 startUp();
 
+document.addEventListener("backbutton", onBackKeyDown, false);
+function onBackKeyDown() {
+  window.history.back();
+}
+
 document.getElementById("user").addEventListener("click", function () {
   //if logged in -> show div with user info
   //if not logged in -> show default div

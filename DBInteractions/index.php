@@ -16,13 +16,14 @@ if ($conn->connect_error) {
 // Check if request is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get data from POST request
+    $table = $_POST['table'];
     $column = $_POST['column'];
     $value = $_POST['value'];
     $id = $_POST['id'];
 
     // Prepare and bind
-    $stmt = $conn->prepare("UPDATE your_table SET $column = ? WHERE id = ?");
-    $stmt->bind_param("si", $value, $id);
+    $stmt = $conn->prepare("UPDATE ? SET $column = ? WHERE id = ?");
+    $stmt->bind_param("ssi", $table, $value, $id);
 
     // Execute the query
     if ($stmt->execute()) {
@@ -35,12 +36,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 else if($_SERVER["REQUEST_METHOD"] == "GET") {
     // Get data from GET request
+    $table = $_GET['table'];
     $column = $_GET['column'];
     $value = $_GET['value'];
 
     // Prepare and bind
-    $stmt = $conn->prepare("SELECT * FROM your_table WHERE ? = ?");
-    $stmt->bind_param("si", $column, $value);
+    $stmt = $conn->prepare("SELECT * FROM ? WHERE ? = ?");
+    $stmt->bind_param("sss", $table, $column, $value);
 
     // Execute the query
     $stmt->execute();
