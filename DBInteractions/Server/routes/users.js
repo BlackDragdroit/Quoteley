@@ -4,7 +4,7 @@ const router = express.Router();
 
 const users = [
   {
-    username: "Jonathan",
+    username: "Janicka",
     password: "pass",
     theme: "dark",
     nsfw: false,

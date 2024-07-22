@@ -11,7 +11,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
+
 
 // Check if request is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -20,10 +20,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $column = $_POST['column'];
     $value = $_POST['value'];
     $id = $_POST['id'];
+    $insert = $_POST['insert'];
 
-    // Prepare and bind
-    $stmt = $conn->prepare("UPDATE ? SET $column = ? WHERE id = ?");
-    $stmt->bind_param("ssi", $table, $value, $id);
+    if($insert) {
+        // Prepare and bind
+        $stmt = $conn->prepare("INSERT INTO ? (?) VALUES (?)");
+        $stmt->bind_param("sss", $table, $column, $value);
+    } else {
+        // Prepare and bind
+        $stmt = $conn->prepare("UPDATE ? SET $column = ? WHERE id = ?");
+        $stmt->bind_param("ssi", $table, $value, $id);
+    }
 
     // Execute the query
     if ($stmt->execute()) {
