@@ -1,88 +1,114 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+
+if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
+    exit(0);
+}
 // Database credentials
-$servername = "web010.wifiooe.at";
-$username = "web010";
-$password = "X8p59h?e";
-$dbname = "web010";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "coding";
 
 // Create connection
+global $conn;
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
 // Check if request is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    $response = [];
     $data = (array) json_decode(file_get_contents('php://input'), TRUE);
-    // Get data from POST request
-    $username = $data['username'];
-    $email = $data['email'];
-    $password = $data['password'];
-    $type = $data['type'];
-    $id = $data['id'] ?? null;
+    $type = $conn->real_escape_string($data['type']);
+
+    switch($type) {
+        case "u": addUser($data); break;
+        case "ua": authenticateUser($data); break;
+        default: exit;
+    }
     
-
-    if($type == "u" && $id == null) {
-        // Prepare and bind
-        $sql = "INSERT INTO users (email, username, passwort) VALUES (?, ?, ?);";
-        $stmt = $conn->prepare($sql);
-        $stmt -> bind_param("sss", $email, $username, $password);
-    } 
-    else if ($type == "u"){
-        // Prepare and bind
-        $stmt = $conn->prepare("UPDATE ? SET ? = ? WHERE id = ?");
-        $stmt->bind_param("sssi", $table, $column, $value, $id);
-    }
-    // if($type == "p" && $id == null) {
-    //     // Prepare and bind
-    //     $sql = "INSERT INTO `users` (email, username, passwort) VALUES (?, ?, ?)";
-    //     $stmt = $conn->prepare($sql);
-    //     $stmt -> bind_param("sss", $email, $username, $password);
-    // } 
-    // else if ($type == "p"){
-    //     // Prepare and bind
-    //     $stmt = $conn->prepare("UPDATE ? SET ? = ? WHERE id = ?");
-    //     $stmt->bind_param("sssi", $table, $column, $value, $id);
-    // }
-
-    // Execute the query
-    if ($stmt->execute()) {
-        echo "Record updated successfully";
-    } else {
-        echo "Error updating record: " . $stmt->error;
-    }
-
-    $stmt->close();
 }
+
 else if($_SERVER["REQUEST_METHOD"] == "GET") {
-    // Get data from GET request
-    $table = $_GET['table'];
-    $column = $_GET['column'];
-    $value = $_GET['value'];
+    $data = (array) json_decode(file_get_contents('php://input'), TRUE);
+    $type = $data['type'];
 
-    // Prepare and bind
-    $stmt = $conn->prepare("SELECT * FROM ? WHERE ? = ?");
-    $stmt->bind_param("sss", $table, $column, $value);
-
-    // Execute the query
-    $stmt->execute();
-
-    // Get the result
-    $result = $stmt->get_result();
-
-    // Fetch the result
-    $row = $result->fetch_assoc();
-
-    // Return the result
-    echo json_encode($row);
-
-    $stmt->close();
-}
-else {
-    echo "Invalid request";
+    switch($type) {
+        case "uid": getUserID($data); break; 
+        default: exit;
+    }
 }
 
-$conn->close();
-?>
+function getUserID($data) {
+    global $conn;
+    $username = $data['username'];
+    $sql = "SELECT id FROM users WHERE username = '$username'";
+
+    $result = $conn->query($sql);
+
+    if($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        echo $row['id'];
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+function addUser($data) {
+    global $conn;
+    $username = trim($conn->real_escape_string($data['username']));
+    $email = trim(strtolower($conn->real_escape_string($data['email'])));
+    $password = $conn->real_escape_string($data['password']);
+    
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $sql = "SELECT username, email FROM users WHERE username = '$username'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            echo "u-exists";
+            exit;
+        }
+
+        $sql = "SELECT username, email FROM users WHERE email = '$email'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            echo "e-exists";
+            exit;
+        }
+
+        $sql = "INSERT INTO users (email, username, password) VALUES ('$email', '$username', '$hashedPassword')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "success";
+            exit;
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+            exit;
+        }
+        exit;
+}
+
+function authenticateUser($data) {
+    global $conn;
+    $username = trim($conn->real_escape_string($data['username']));
+    $password = $conn->real_escape_string($data['password']);
+
+    $sql = "SELECT username, password FROM users WHERE username = '$username'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            if (password_verify($password, $row['password'])) {
+                echo "success";
+                exit;
+            } else {
+                exit;
+            }
+        } else {
+            exit;
+        }
+}

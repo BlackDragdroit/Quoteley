@@ -3,6 +3,7 @@ function startUp() {
   //Check if logged in
   if (true) {
   } else {
+    window.location.href = "./src/pages/login.html";
   }
 }
 startUp();
