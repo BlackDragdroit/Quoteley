@@ -30,6 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     switch($type) {
         case "u": addUser($data); break;
         case "ua": authenticateUser($data); break;
+        case "uid": getUserID($data); break; 
+        case "uu": getUsername($data); break;
+        case "ap": addPost($data); break;
+        case "gp": getPosts(); break;
         default: exit;
     }
     
@@ -42,6 +46,42 @@ else if($_SERVER["REQUEST_METHOD"] == "GET") {
     switch($type) {
         case "uid": getUserID($data); break; 
         default: exit;
+    }
+}
+
+function getPosts() {
+    global $conn;
+    $sql = "SELECT quotes.id, users.username, quotes.quote_text, quotes.author, quotes.visibility 
+    FROM quotes 
+    INNER JOIN users 
+    ON quotes.user_id = users.id";
+
+    $result = $conn->query($sql);
+    if($result->num_rows > 0) {
+        $posts = [];
+        while($row = $result->fetch_assoc()) {
+            $posts[] = $row;
+        }
+        echo json_encode($posts);
+    } else {
+        echo json_encode([]);
+    }
+
+}
+
+function addPost($data) {
+    global $conn;
+    $uid = $data["uid"];
+    $postContent = $data["postContent"];
+    $author = $data["author"];
+    $visibility = isset($data["visibility"]) ? $data["visibility"] : "public";
+
+    $sql = "INSERT INTO quotes (user_id, quote_text, author, visibility) VALUES ('$uid', '$postContent', '$author', '$visibility')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "success";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
 
@@ -111,4 +151,20 @@ function authenticateUser($data) {
         } else {
             exit;
         }
+}
+
+
+function getUsername($data) {
+    global $conn;
+    $id = $data['uid'];
+    $sql = "SELECT username FROM users WHERE id = '$id'";
+
+    $result = $conn->query($sql);
+
+    if($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        echo $row['username'];
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
 }

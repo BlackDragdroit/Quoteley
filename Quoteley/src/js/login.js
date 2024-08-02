@@ -1,12 +1,7 @@
-import { getUID } from "./dbInteractions.js";
+import { getUID, authenticateUser } from "./dbInteractions.js";
 let username = document.getElementById("username");
 let password = document.getElementById("password");
 let infoDIV = document.getElementById("infoDIV");
-document.addEventListener("backbutton", onBackKeyDown, false);
-function onBackKeyDown() {
-  window.history.back();
-}
-
 document.getElementById("register").addEventListener("click", function () {
   window.location.href = "./register.html";
 });
@@ -24,24 +19,11 @@ document.getElementById("login").addEventListener("click", () => {
 });
 
 async function loginUser(username, password) {
-  const response = await fetch("http://192.168.64.194/dbInteractions.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    mode: "cors",
-    body: JSON.stringify({
-      username: username,
-      password: password,
-      type: "ua",
-    }),
-  });
-  let data = await response.text();
-  console.log("Success:", data);
+  let data = await authenticateUser(username, password);
   if (data == "success") {
     localStorage.setItem("loggedIn", "true");
-    localStorage.setItem("uid", getUID(username));
-    window.location.href = "./mainPage.html";
+    localStorage.setItem("uid", await getUID(username));
+    window.location.href = "../../index.html";
   } else {
     infoDIV.style.color = "red";
     infoDIV.style.border = "solid red";
@@ -49,20 +31,3 @@ async function loginUser(username, password) {
     infoDIV.style.visibility = "visible";
   }
 }
-
-getUID = async (username) => {
-  const response = await fetch("http://192.168.64.194:80/dbInteractions.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    mode: "cors",
-    body: JSON.stringify({
-      username: username,
-      type: "uid",
-    }),
-  });
-
-  let data = await response.text();
-  return data;
-};

@@ -8,45 +8,65 @@
     <title>Quoteley</title>
   </head>
   <body>
+    <div id="netState">
+      <div id="netStateIcon"></div>
+      <div id="netStateText">online</div>
+    </div>
     <div class="titleDiv">
       <h1 id="mainTitle">Quoteley</h1>
     </div>
 
-    <div class="contentDiv">
+    <div id="contentDIV" class="contentDiv">
       <h2>Feed</h2>
-      <div id="exampleContent" class="post">
-        <div class="mainPost">
-          The greatest glory in living lies not in never falling, but in rising
-          every time we fall </br> </br>
-          - Nelson Mandela
-        </div>
-        <div class="subPost">(👉ﾟヮﾟ)👉 This is an example Post (⌐■_■)</div>
-      </div>
     </div>
 
     <div class="menuBar">
-      <i id="search" data-feather="search"></i>
+      <div>
+        <i id="addPost" data-feather="plus"></i>
+        <div class="popUp" id="addPostPopUpContainer">
+          <div class="previewPost">
+            <div id="previewQuote" class="previewQuote"></div>
+            <textarea id="addPostTextArea"></textarea>
+            <div id="previewSubPost" class="subPostInfo">author:</div>
+          </div>
+          <input
+            id="authorInput"
+            type="text"
+            placeholder="Author"
+            class="input"
+          />
+          <input id="postButton" type="button" class="button" value="Post" />
+        </div>
+      </div>
       <img
         src="./src/assets/images/LogoGray2.png"
         style="width: 3.5em; height: 2.5em"
       />
       <div>
         <i id="user" data-feather="user"></i>
-        <div class="popUp" id="defaultUserPopUp">
-          <a href="./src/pages/login.html"
-            ><input type="button" class="button" value="Sign In"
-          /></a>
-          <a href="./src/pages/register.html">
-            <input type="button" class="button" value="Sign Up" />
-          </a>
-          <div id="infoDIV"></div>
+        <div class="popUp" id="userPopUpContainer">
+          <div id="defaultPopUpContent">
+            <a href="./src/pages/login.html"
+              ><input type="button" class="button" value="Sign In"
+            /></a>
+            <br />
+            <a href="./src/pages/register.html">
+              <input type="button" class="button" value="Sign Up" />
+            </a>
+          </div>
+          <div id="userInfoPopUpContent">
+            <div id="username">Username</div>
+            <input type="button" class="button" value="Settings" /> <br />
+            <input id="signout" type="button" class="button" value="Sign Out" />
+          </div>
         </div>
       </div>
     </div>
-
+    <div id="infoDIV"></div>
     <script>
       feather.replace();
     </script>
-    <script src="./src/js/index.js"></script>
+    <script type="module" src="./src/js/index.js"></script>
+    <script type="module" src="./src/js/utils.js"></script>
   </body>
 </html>

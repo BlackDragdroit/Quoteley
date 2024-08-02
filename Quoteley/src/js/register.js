@@ -1,9 +1,5 @@
 import { registerUser } from "./dbInteractions.js";
-document.addEventListener("backbutton", onBackKeyDown, false);
 let infoDIV = document.getElementById("infoDIV");
-function onBackKeyDown() {
-  window.history.back();
-}
 
 document.getElementById("register").addEventListener("click", () => {
   const username = document.getElementById("username").value;
