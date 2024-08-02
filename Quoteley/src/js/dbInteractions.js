@@ -1,6 +1,6 @@
 const URL = "http://web010.wifiooe.at/quoteley/api/dbInteractions.php";
 
-async function registerUser(username, email, password) {
+export async function registerUser(username, email, password) {
   const response = await fetch(URL, {
     method: "POST",
     headers: {
