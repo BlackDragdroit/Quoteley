@@ -71,7 +71,6 @@ postButton.addEventListener("click", async () => {
 });
 
 //List Posts
-
 async function listPosts() {
   let contentDiv = document.getElementById("contentDIV");
 
@@ -98,25 +97,29 @@ async function listPosts() {
       contentDiv.appendChild(postDiv);
       return;
     }
-    posts.forEach((post) => {
-      console.log(post);
-
+    for (let i = 0; i < posts.length; i++) {
       let postDiv = document.createElement("div");
       postDiv.classList.add("post");
 
       let quoteDiv = document.createElement("div");
       quoteDiv.classList.add("quote");
-      quoteDiv.innerHTML = post.quote_text + "<br><br>" + "- " + post.author;
+      quoteDiv.innerHTML =
+        posts[i].quote_text + "<br><br>" + "- " + posts[i].author;
 
       let subPostInfoDiv = document.createElement("div");
       subPostInfoDiv.classList.add("subPostInfo");
-      subPostInfoDiv.innerHTML = post.username;
+      subPostInfoDiv.innerHTML = posts[i].username;
 
       postDiv.appendChild(quoteDiv);
       postDiv.appendChild(subPostInfoDiv);
 
       contentDiv.appendChild(postDiv);
-    });
+
+      if (i == posts.length - 1) {
+        contentDiv.appendChild(document.createElement("br"));
+        contentDiv.appendChild(document.createElement("br"));
+      }
+    }
   });
 }
 listPosts();

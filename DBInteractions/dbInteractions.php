@@ -7,10 +7,10 @@ if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
     exit(0);
 }
 // Database credentials
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "coding";
+$servername = "web010.wifiooe.at";
+$username = "web010";
+$password = "X8p59h?e";
+$dbname = "web010";
 
 // Create connection
 global $conn;
@@ -69,11 +69,13 @@ function getPosts() {
 
 }
 
+
+
 function addPost($data) {
     global $conn;
     $uid = $data["uid"];
-    $postContent = $data["postContent"];
-    $author = $data["author"];
+    $postContent = $conn->real_escape_string($data["postContent"]);
+    $author = $conn->real_escape_string($data["author"]);
     $visibility = isset($data["visibility"]) ? $data["visibility"] : "public";
 
     $sql = "INSERT INTO quotes (user_id, quote_text, author, visibility) VALUES ('$uid', '$postContent', '$author', '$visibility')";

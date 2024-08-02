@@ -1,6 +1,13 @@
-// import { defineConfig } from "vite";
-// import basicSsl from "@vitejs/plugin-basic-ssl";
-// export default defineConfig({
-//   plugins: [basicSsl()],
-//   server: { port: 3000 },
-// });
+//vite config
+import { resolve } from "path";
+import { defineConfig } from "vite";
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        nested: resolve(__dirname, "src/pages/login.html"),
+      },
+    },
+  },
+});
