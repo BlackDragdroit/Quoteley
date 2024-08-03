@@ -170,7 +170,7 @@ function onPostClick() {
   if (postContainer.style.display == "none") {
     postContainer.style.display = "flex";
     document.getElementById("previewSubPost").innerHTML =
-      "Author: " + localStorage.getItem("username");
+      localStorage.getItem("username");
     setTimeout(() => {
       document.addEventListener("click", hidePostPopUp);
     }, 1000);
