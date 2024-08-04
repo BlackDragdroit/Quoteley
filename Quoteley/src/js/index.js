@@ -17,15 +17,17 @@ async function startUp() {
       await getUsername(localStorage.getItem("uid"))
     );
   }
-  console.log(localStorage.getItem("username"));
+  if (localStorage.getItem("uid")) {
+    if (localStorage.getItem("token") == null) {
+      localStorage.setItem("token", await getVerificationToken());
+    } else if (
+      localStorage.getItem("token") != (await getVerificationToken())
+    ) {
+      localStorage.clear();
+    }
+  }
   document.getElementById("username").innerHTML =
     localStorage.getItem("username");
-
-  if (localStorage.getItem("token") == null) {
-    localStorage.setItem("token", await getVerificationToken());
-  } else if (localStorage.getItem("token") != (await getVerificationToken())) {
-    localStorage.clear();
-  }
 }
 await startUp();
 
@@ -180,17 +182,28 @@ function stopBlinkingCursor() {
 
 //End of Area
 
-function onPostClick() {
-  let postContainer = document.getElementById("addPostPopUpContainer");
-  if (postContainer.style.display == "none") {
-    postContainer.style.display = "flex";
-    document.getElementById("previewSubPost").innerHTML =
-      localStorage.getItem("username");
-    setTimeout(() => {
-      document.addEventListener("click", hidePostPopUp);
-    }, 1000);
+async function onPostClick() {
+  if (await checkLoginState()) {
+    let postContainer = document.getElementById("addPostPopUpContainer");
+    if (postContainer.style.display == "none") {
+      postContainer.style.display = "flex";
+      document.getElementById("previewSubPost").innerHTML =
+        localStorage.getItem("username");
+      setTimeout(() => {
+        document.addEventListener("click", hidePostPopUp);
+      }, 1000);
+    } else {
+      postContainer.style.display = "none";
+    }
   } else {
-    postContainer.style.display = "none";
+    infoDIV.style.color = "red";
+    infoDIV.style.border = "solid red";
+    infoDIV.innerHTML =
+      "A post without a username is not a post <br><br> -Quoteley";
+    infoDIV.style.visibility = "visible";
+    setTimeout(() => {
+      infoDIV.style.visibility = "hidden";
+    }, 3000);
   }
 }
 
