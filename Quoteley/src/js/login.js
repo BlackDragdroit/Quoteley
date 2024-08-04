@@ -1,4 +1,9 @@
-import { getUID, authenticateUser } from "./dbInteractions.js";
+import {
+  getUID,
+  authenticateUser,
+  getVerificationToken,
+  setVerificationToken,
+} from "./dbInteractions.js";
 let username = document.getElementById("username");
 let password = document.getElementById("password");
 let infoDIV = document.getElementById("infoDIV");
@@ -23,6 +28,11 @@ async function loginUser(username, password) {
   if (data == "success") {
     localStorage.setItem("loggedIn", "true");
     localStorage.setItem("uid", await getUID(username));
+    if ((await setVerificationToken()) == "success") {
+      let token = await getVerificationToken();
+      console.log(token);
+      localStorage.setItem("token", token);
+    }
     window.location.href = "../../index.html";
   } else {
     infoDIV.style.color = "red";

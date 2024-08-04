@@ -1,4 +1,5 @@
-const URL = "https://web010.wifiooe.at/quoteley/api/dbInteractions.php";
+const URL = "http://192.168.0.156/dbInteractions.php";
+import { generateToken } from "./utils.js";
 
 export async function registerUser(username, email, password) {
   const response = await fetch(URL, {
@@ -98,5 +99,38 @@ export async function getPosts() {
     }),
   });
   let data = await response.json();
+  return data;
+}
+
+export async function getVerificationToken() {
+  const response = await fetch(URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    mode: "cors",
+    body: JSON.stringify({
+      type: "gvt",
+      uid: localStorage.getItem("uid"),
+    }),
+  });
+  let data = await response.text();
+  return data;
+}
+
+export async function setVerificationToken() {
+  const response = await fetch(URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    mode: "cors",
+    body: JSON.stringify({
+      type: "svt",
+      uid: localStorage.getItem("uid"),
+      token: generateToken(50),
+    }),
+  });
+  let data = await response.text();
   return data;
 }

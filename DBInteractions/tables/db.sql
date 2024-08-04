@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS DB.users (
     moderator_status BOOLEAN DEFAULT FALSE,
     favorite_quotes TEXT,
     interests_tags_id TEXT,
-    activity_history_id TEXT
+    activity_history_id TEXT,
+    verification_token VARCHAR(56)
 );
 
 -- Quotes
@@ -25,7 +26,7 @@ CREATE TABLE IF NOT EXISTS DB.quotes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     quote_text TEXT,
-    author VARCHAR(255),
+    author VARCHAR(32),
     image_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

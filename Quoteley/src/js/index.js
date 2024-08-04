@@ -1,4 +1,9 @@
-import { getUsername, addPost, getPosts } from "./dbInteractions";
+import {
+  getUsername,
+  addPost,
+  getPosts,
+  getVerificationToken,
+} from "./dbInteractions";
 let infoDIV = document.getElementById("infoDIV");
 let postTextArea = document.getElementById("addPostTextArea");
 let authorInput = document.getElementById("authorInput");
@@ -11,11 +16,18 @@ async function startUp() {
       "username",
       await getUsername(localStorage.getItem("uid"))
     );
-    document.getElementById("username").innerHTML =
-      localStorage.getItem("username");
+  }
+  console.log(localStorage.getItem("username"));
+  document.getElementById("username").innerHTML =
+    localStorage.getItem("username");
+
+  if (localStorage.getItem("token") == null) {
+    localStorage.setItem("token", await getVerificationToken());
+  } else if (localStorage.getItem("token") != (await getVerificationToken())) {
+    localStorage.clear();
   }
 }
-startUp();
+await startUp();
 
 document.getElementById("signout").addEventListener("click", function () {
   localStorage.clear();
@@ -114,6 +126,9 @@ async function listPosts() {
       postDiv.appendChild(subPostInfoDiv);
 
       contentDiv.appendChild(postDiv);
+      //Check if Post is by the logged in user
+      if (localStorage.getItem("uid") == posts[i].uid) {
+      }
 
       if (i == posts.length - 1) {
         contentDiv.appendChild(document.createElement("br"));
@@ -193,13 +208,28 @@ function hidePostPopUp(event) {
   document.removeEventListener("click", hidePostPopUp);
 }
 
-function onProfileClick() {
+async function checkLoginState() {
+  if (localStorage.getItem("uid") && localStorage.getItem("username")) {
+    if (
+      localStorage.getItem("username") ==
+      (await getUsername(localStorage.getItem("uid")))
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+
+async function onProfileClick() {
   //if logged in -> show div with user info
   //if not logged in -> show default div
   let defaultPopUpContent = document.getElementById("defaultPopUpContent");
   let userInfoPopUpContent = document.getElementById("userInfoPopUpContent");
   let userPopUpContainer = document.getElementById("userPopUpContainer");
-  if (localStorage.getItem("loggedIn")) {
+  if (await checkLoginState()) {
     defaultPopUpContent.style.visibility = "hidden";
     defaultPopUpContent.style.position = "absolute";
     userInfoPopUpContent.style.visibility = "visible";

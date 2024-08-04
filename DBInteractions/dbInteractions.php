@@ -7,10 +7,10 @@ if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
     exit(0);
 }
 // Database credentials
-$servername = "web010.wifiooe.at";
-$username = "web010";
-$password = "X8p59h?e";
-$dbname = "web010";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "coding";
 
 // Create connection
 global $conn;
@@ -34,6 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         case "uu": getUsername($data); break;
         case "ap": addPost($data); break;
         case "gp": getPosts(); break;
+        case "gvt": getVerificationToken($data); break;
+        case "svt": setVerificcationToken($data); break;
         default: exit;
     }
     
@@ -57,15 +59,20 @@ function getPosts() {
     ON quotes.user_id = users.id";
 
     $result = $conn->query($sql);
-    if($result->num_rows > 0) {
-        $posts = [];
-        while($row = $result->fetch_assoc()) {
-            $posts[] = $row;
+    if($result) {
+        if($result->num_rows > 0) {
+            $posts = [];
+            while($row = $result->fetch_assoc()) {
+                $posts[] = $row;
+            }
+            echo json_encode($posts);
+        } else {
+            echo json_encode([]);
         }
-        echo json_encode($posts);
     } else {
-        echo json_encode([]);
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
+    
 
 }
 
@@ -170,3 +177,32 @@ function getUsername($data) {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
+
+function getVerificationToken($data) {
+    global $conn;
+    $uid = $data['uid'];
+    $sql = "SELECT verification_token FROM users WHERE id = '$uid'";
+
+    $result = $conn->query($sql);
+
+    if($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        echo $row['verification_token'];
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+function setVerificcationToken($data) {
+    global $conn;
+    $uid = $data['uid'];
+    $token = $data['token'];
+    $sql = "UPDATE users SET verification_token = '$token' WHERE id = '$uid'";
+    if ($conn->query($sql) === TRUE) {
+        echo "success";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    } 
+}
+
+?>
