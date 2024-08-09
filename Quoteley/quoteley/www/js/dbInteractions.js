@@ -130,6 +130,7 @@ export async function getUserLikes() {
 export async function getPostLikes(pid) {
   const response = await fetch(URL, {
     method: "POST",
+
     mode: "cors",
     body: JSON.stringify({
       pid: pid,

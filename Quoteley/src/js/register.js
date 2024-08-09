@@ -39,6 +39,7 @@ document.getElementById("register").addEventListener("click", () => {
 
 async function register(username, email, password) {
   let data = await registerUser(username, email, password);
+  console.log(data);
 
   if (data === "success") {
     infoDIV.style.color = "green";

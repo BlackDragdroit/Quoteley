@@ -30,7 +30,7 @@ async function loginUser(username, password) {
     localStorage.setItem("uid", await getUID(username));
     if ((await setVerificationToken()) == "success") {
       let token = await getVerificationToken();
-      console.log(token);
+      console.log("token: " + token);
       localStorage.setItem("token", token);
     }
     window.location.href = "../../index.html";

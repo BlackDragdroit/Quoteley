@@ -10,10 +10,12 @@ import {
   getUserLikes,
   getPostLikes,
 } from "./dbInteractions.js";
+
 let infoDIV = document.getElementById("infoDIV");
 let postTextArea = document.getElementById("addPostTextArea");
 let authorInput = document.getElementById("authorInput");
 let postButton = document.getElementById("postButton");
+
 async function startUp() {
   //check if user ID and username are stored in local storage
   //if not, get username from database and store it in local storage
