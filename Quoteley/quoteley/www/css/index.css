@@ -115,7 +115,8 @@ h2 {
 }
 
 #infoDIV {
-  position: absolute;
+  position: fixed;
+  background-color: var(--background-color);
   top: 0px;
   visibility: hidden;
   width: 100%;

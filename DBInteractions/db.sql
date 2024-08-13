@@ -1,4 +1,5 @@
 -- To implement change DB to your db name
+-- Note: GI only changed the sizes of columns I already used, all others will get changed as soon as in use
 
 -- Users
 CREATE TABLE IF NOT EXISTS DB.users (
@@ -56,7 +57,7 @@ CREATE TABLE IF NOT EXISTS DB.comments (
 -- Tags/Categories 
 CREATE TABLE IF NOT EXISTS DB.tags (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    tag_name VARCHAR(255),
+    tag_name VARCHAR(10),
     custom BOOLEAN DEFAULT FALSE
 );
 
