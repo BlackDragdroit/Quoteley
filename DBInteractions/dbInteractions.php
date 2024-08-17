@@ -1,11 +1,11 @@
 <?php
-header("Access-Control-Allow-Origin: https://localhost");
+header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 
 if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
     // Handle preflight request
-    header("Access-Control-Allow-Origin: https://localhost");
+    header("Access-Control-Allow-Origin: http://localhost:5173");
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
     header("HTTP/1.1 200 OK");
@@ -13,10 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "OPTIONS") {
 }
 
 // Database credentials
-$servername = "web010.wifiooe.at";
-$username = "web010";
-$password = "X8p59h?e";
-$dbname = "web010";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "coding";
 
 // Create connection
 global $conn;

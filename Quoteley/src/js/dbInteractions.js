@@ -1,4 +1,5 @@
-const URL = "https://web010.wifiooe.at/quoteley/api/dbInteractions.php";
+// const URL = "https://web010.wifiooe.at/quoteley/api/dbInteractions.php";
+const URL = "http://localhost/dbInteractions.php";
 import { generateToken, escapeHTML } from "./utils.js";
 
 export async function registerUser(username, email, password) {
